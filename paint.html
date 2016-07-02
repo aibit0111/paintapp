@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>canvas Practice</title>
+<style>
+body {
+margin : 40px;
+background : #666;
+}
+#canvas {
+background: #ffffff;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+    <div> <input id ="radiusrange" type ="range" step = 1 min=1 max=50 name="number" value = 3><p id = "radiusvalue">3</p></div>
+    <div><input id = "fillcolor" type = "color" value = "#000000"></div>
+   
+<canvas id ="canvas" height = "500px" width = "800px"></canvas>
+<script>
+  
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    var dragging = false;
+    function init(){
+        position = getcordinate(event);
+        context.lineTo(position.x,position.y);
+        context.stroke();
+        context.beginPath();
+        context.arc(position.x,position.y,deradius,0,Math.PI*2);
+        context.fill();
+        context.beginPath();
+        context.moveTo(position.x,position.y);
+        context.lineWidth =deradius*2;
+    }
+    function draginto(){
+            dragging = true;
+
+    }
+    function drag(){ 
+        if (dragging===true)
+        {
+            init();
+        }
+    }
+    function dragout(){
+        dragging = false;
+        context.beginPath();
+        }
+    function getcordinate(event){
+        
+        var x = event.clientX - canvas.getBoundingClientRect().left,
+            y = event.clientY - canvas.getBoundingClientRect().top;
+        return {x:x,y:y};
+    }
+    
+   canvas.addEventListener("mousemove",drag,false);
+    canvas.addEventListener("mousedown",draginto,false);
+    canvas.addEventListener("mouseup",dragout,false);
+
+
+    
+</script>
+<script src = "radius.js"> </script>
+<script src = "color.js"> </script>
+</body>
